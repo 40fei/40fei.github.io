@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>轮播图</title>
+		<style type="text/css">
+			*{
+				padding:0;
+				margin:0;
+			}
+			ul{
+				list-style:none;
+			}
+			#banner{
+				margin:40px auto;
+				position:relative;
+				overflow: hidden;
+				border:3px solid #000;
+				height:450px;
+				width:600px;
+			}
+			#img-list{
+				position:absolute;
+				/*left:0;*/
+				height:450px;
+				width:2400px;
+				background-color:pink;
+			}
+			#img-list>li{
+				float:left;
+				height:450px;
+				width:600px;
+			}
+			#img-list>li img{
+				height:450px;
+				width:600px;
+			}
+			#spot-list{
+				position:absolute;
+				right:40px;
+				bottom:20px;
+			}
+			#spot-list>li{
+				float:left;
+				margin-left:10px;
+				height:20px;
+				width:20px;
+				background-color:#fff;
+				border-radius:10px;
+			}
+			#spot-list>.select{
+				background-color: #FFC0CB;
+			}
+			#arr-l,#arr-r{
+				display:block;
+				position: absolute;
+				top:200px;
+				height:40px;
+				width:30px;
+				background-color:#FFFFFF;
+				line-height:40px;
+				text-align: center;
+			}
+			#arr-l{
+				left:10px;
+			}
+			#arr-r{
+				right:10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="banner" >
+			<ul id="img-list" style="left:0;">
+				<li><a href="#"><img src="img/banner-img-01.jpg"/></a></li>
+				<li><a href="#"><img src="img/banner-img-02.jpg"/></a></li>
+				<li><a href="#"><img src="img/banner-img-03.jpg"/></a></li>
+				<li><a href="#"><img src="img/banner-img-04.jpg"/></a></li>
+			</ul>
+			<ul id="spot-list">
+				<li index="1" class="select"></li>
+				<li index="2"></li>
+				<li index="3"></li>
+				<li index="4"></li>
+			</ul>
+			
+			<a href="#" id="arr-l"><</a>
+			<a href="#" id="arr-r">></a>
+		</div>
+		<script type="text/javascript">
+			var imgList=document.getElementById("img-list");
+			var imgListLi=imgList.getElementsByTagName("li");
+			var arrL=document.getElementById("arr-l");
+			var arrR=document.getElementById("arr-r");
+			var spotList=document.getElementById("spot-list").getElementsByTagName("li");
+			
+			
+			//1.改变imgList 的长度和文档结构
+			// 获取显示的区域
+			var imgWidth=imgList.getElementsByTagName("li")[0].offsetWidth;
+			//设置imgList长度
+			var imgListWidht=imgWidth*(spotList.length+2);
+			imgList.style.width=imgListWidht+"px";
+			//复制第一张放到最后,复制最后一张放到前面
+			var capyFastLi=imgListLi[0].cloneNode(true);
+			var capylastLi=imgListLi[imgListLi.length-1].cloneNode(true);
+			imgList.appendChild(capyFastLi);
+			imgList.insertBefore(capylastLi,imgList.childNodes[0]);
+			imgList.style.left=-imgWidth+"px";
+			
+			var index=1;
+			var timer;
+			//左箭头
+			arrL.onclick=function(){
+				stop();
+				setTimeout(play(),6000);
+				index--;
+				run();
+			}
+			//右箭头
+			arrR.onclick=function(){
+				stop();
+				setTimeout(play(),3000);
+				index++;
+				run();
+			}
+			//点标记
+			for(var i=0;i<spotList.length;i++){
+				spotList[i].onclick=function(){
+					index=parseInt(this.getAttribute("index"));
+					stop();
+					setTimeout(play(),3000);
+					run();
+				}
+			}
+			//格三秒播放
+			
+			function play(){
+				timer=setInterval(function(){
+					arrR.onclick();
+				},3000);
+			}
+			function stop(){
+				clearInterval(timer);
+			}
+			//动画
+			function run(){
+				startX=parseInt(imgList.style.left);
+				endX=-(index)*600;
+				imgList.style.left=endX+"px";
+				imgList.style.transition = 'all 1s';
+				if(index==imgListLi.length-1){
+					index=1;
+					setTimeout(function(){
+						imgList.style.transition = "none";
+						startX=parseInt(imgList.style.left);
+						endX=-(index)*600;
+						imgList.style.left=endX+"px";
+					},1000);
+					
+				}
+				if(index==0){
+					index=imgListLi.length-2;
+					setTimeout(function(){
+						imgList.style.transition = "none";
+						
+						startX=parseInt(imgList.style.left);
+						endX=-(index)*600;
+						imgList.style.left=endX+"px";
+					},1000);					
+				}
+				onspotList();
+				
+			}
+			//改变点标记都样式
+			function onspotList(){
+				console.log(index);
+				for(var i=0;i<spotList.length;i++){
+					if(spotList[i].className=="select"){
+						spotList[i].className="";
+					}
+				}
+				spotList[index-1].className='select';
+				
+			}
+			play();
+		</script>
+	</body>
+</html>
