@@ -1,0 +1,42 @@
+#calendar{
+				height:500px;
+				width:500px;
+				background-color:#abc;
+			}
+			
+			.herder{
+				height:50px;
+				background-color:#cba;
+				padding:0 50px;
+				line-height:50px;
+				font-size:30px;
+				text-align: center;
+			}
+			.herder h4{
+				margin:0;
+				padding:0;
+			}
+			#prev{
+				float:left;
+			}
+			#next{
+				float:right;
+			}
+			
+			.item,.title{
+				float:left;
+				width:71px;
+				height:64px;
+				background-color:#555;
+				border:1px solid #aa0;
+				box-sizing: border-box;
+				text-align: center;
+				line-height:64px;
+				color:#fff;
+			}
+			.active{
+				background-color: #AABBCC;
+			}
+			.othermonth{
+				background-color:#888;
+			}
