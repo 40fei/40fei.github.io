@@ -67,9 +67,9 @@
 						}else{//当前月
 							$('.item').eq(i).text(nowday);
 							nowday++;
-							//判断是否为单前日期
-							if(i==nowDate.getDate() && moth==nowDate.getMonth() && year==nowDate.getFullYear()){							
-								console.log(moth==nowDate.getMonth());
+							//判断是否为单前日期,i从0开始的第一天是i=0的时候;
+							if((i+1)==nowDate.getDate()&& moth==nowDate.getMonth() && year==nowDate.getFullYear()){							
+								console.log(nowDate.getDate());
 								$('.item').eq(i).addClass('active');
 							}
 						}
